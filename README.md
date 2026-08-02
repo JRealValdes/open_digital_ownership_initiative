@@ -25,7 +25,8 @@ This initiative proposes a practical model where:
 
 | Document | Description |
 |----------|-------------|
-| **[Digital Ownership Framework](docs/framework.md)** | The full proposal (read this first) |
+| **[Brief](docs/brief.md)** | One-page summary for platforms, press, and advocates |
+| **[Digital Ownership Framework](docs/framework.md)** | The full proposal |
 | **[Glossary](docs/glossary.md)** | Definitions of core terms |
 | **[FAQ](docs/faq.md)** | Short answers to common questions |
 | **[Contributing](CONTRIBUTING.md)** | How to propose changes |
@@ -41,6 +42,7 @@ This initiative proposes a practical model where:
 ├── CONTRIBUTING.md
 ├── CHANGELOG.md
 ├── docs/
+│   ├── brief.md              ← one-page summary (press / platforms)
 │   ├── framework.md          ← core proposal
 │   ├── glossary.md
 │   └── faq.md

@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and version numbers follow the intent described in
 [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
+## [Unreleased]
+
+### Added
+
+- One-page brief for platforms, press, and advocates (`docs/brief.md`).
+
 ## [1.0.0] — 2026-08-02
 
 ### Added
