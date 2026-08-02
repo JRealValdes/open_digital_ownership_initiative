@@ -68,4 +68,4 @@ Content in this repository is licensed under
 
 ## Status
 
-**v1.0.0** — initial public draft for open review.
+**v1.0.1** — public draft; includes platform/press brief.
