@@ -1,6 +1,6 @@
 # Digital Ownership Framework
 
-**Version:** 1.0.0  
+**Version:** 1.1.0  
 **Status:** Community proposal  
 **Scope:** Video games (principles may later extend to other digital goods)  
 **License:** [CC BY 4.0](../LICENSE)
@@ -121,8 +121,9 @@ hollowing them out is not compatible with the model.
    (instant download, multi-device install, cloud saves) should not
    require surrendering the rights in §4.1.
 4. **Security protects ownership.** Controls should prevent
-   *duplication of ownership*, not impose permanent surveillance or
-   arbitrary limits on legitimate owners.
+   *duplication of ownership* and *unauthorised launch without an
+   ownership proof*, not impose permanent surveillance or arbitrary
+   limits on legitimate owners.
 5. **Physical and digital are modes of the same right.** A player’s
    library may contain digitally managed titles and physically tokenised
    titles under one ownership model.
@@ -143,12 +144,16 @@ in [`glossary.md`](glossary.md).
 | **Ownership record** | An authoritative entry stating who owns a given game copy and in which mode. |
 | **Ownership mode** | How ownership is currently exercised: **Digital** or **Offline** (see §7). |
 | **Ownership token** | A unique physical artefact that represents Offline Ownership of a game copy. |
+| **Digital ownership credential** | Locally usable proof derived from a Digital Ownership record; used to authorise launch (including offline) without treating bare files as sufficient. |
+| **Sealed content** | Game payload bound so unlock material derives from an ownership proof; suitable for preservation without enabling unowned play. |
 | **Licence-to-use** | Permission to access a game without the transfer and longevity rights of ownership. Outside the purchase model this framework defines. |
 
 **Important distinction:** game *files* (installers, binaries, assets) are
 not ownership. Files can be copied; ownership cannot be honestly
 duplicated. Ownership is represented by records and, in Offline mode, by
-tokens.
+tokens. Under this model, **possession of files must not by itself
+authorise launch**; play requires a valid ownership proof (see §12.3
+and §13).
 
 ---
 
@@ -199,7 +204,8 @@ Digital Ownership is the normal mode after an online purchase.
 The owner may:
 
 - install the game on multiple devices they control (§11)
-- play offline for ordinary use
+- play offline for ordinary use, using a locally cached digital
+  ownership credential (§12.3)
 - keep personal backups of installers and game data for preservation (§12)
 - move installations between personal devices
 
@@ -241,8 +247,9 @@ Properties of the ownership token:
 
 This is the modern analogue of a cartridge or disc **as a bearer of
 ownership**, not necessarily as the sole storage medium for game files.
-Game data may still be downloaded or installed digitally; the token
-answers *who owns this copy*.
+Game data may still be downloaded or installed digitally—preferably as
+sealed content (§12.3); the token answers *who owns this copy* and is
+required to authorise launch in Offline mode.
 
 Conversion back to Digital Ownership is allowed: the token is
 invalidated (or marked redeemed), and a digital ownership record is
@@ -367,13 +374,19 @@ copy across competing storefronts or platform families is out of scope
 for this version (see §3.2).
 
 Perfect prevention of all simultaneous offline use across devices is
-not realistically achievable without harming legitimate owners. This
-framework therefore adopts a **trust-and-detect** posture:
+not realistically achievable without harming legitimate owners. For
+*that* residual risk—an owner’s own devices used at the same time while
+offline—this framework adopts a **trust-and-detect** posture:
 
-- trust ordinary personal use
-- detect and act on large-scale abuse
+- allow ordinary personal multi-device use
+- detect and act on large-scale abuse (device farms, industrial sharing)
 - avoid permanent always-online requirements and arbitrary install caps
   as the primary control mechanism
+
+This posture applies to multi-device edge cases. It does **not** mean
+implementations may rely on voluntary honesty for the basic rule that
+unowned copies must not launch. Launch authorisation is a hard
+requirement of §13.
 
 Platforms may still use lightweight checks at ownership events, device
 management tools, or abuse thresholds. Those measures must remain
@@ -392,9 +405,42 @@ library archives for games they own.
 
 Possessing files does not create ownership. Preservation without an
 ownership record or valid offline token does not authorise redistributing
-the game as if it were owned.
+the game as if it were owned, and does not authorise play.
 
-### 12.3 Preservation beyond platforms
+### 12.3 Backups must not equal a playable copy
+
+Preservation and anti-fraud pull in the same direction when designed
+correctly: owners should be able to archive what they own, and a shared
+folder of game bits should not become a working game for someone who
+lacks ownership.
+
+**Requirement:** implementations must bind the right to *launch* a game
+copy to a current ownership proof—either:
+
+1. a **digital ownership credential** derived from a valid Digital
+   Ownership record (which may be cached locally after an ownership
+   event, so ordinary play can remain offline), or
+2. a valid **ownership token** in Offline Ownership mode.
+
+Absent one of those proofs, the copy must not be authorised to run.
+
+**Recommended design:** treat distributable game payloads as **sealed
+content** (for example encrypted or otherwise cryptographically bound)
+whose usable keys or unlock material derive from the ownership proof.
+Owners then back up sealed packages safely; the sensitive artefact is
+the credential or token, not the raw playable tree in the clear.
+
+Digital credentials used for offline launch may be device-bound or
+otherwise limited so that copying the backup folder alone does not
+transplant play rights. Mode conversion, transfer, and lending must
+invalidate or re-issue credentials so that prior unlock material cannot
+honestly keep working for a former holder.
+
+Exact cryptography, packaging, and hardware choices are implementation
+details (see §16). The normative rule is the binding: **no proof, no
+launch**.
+
+### 12.4 Preservation beyond platforms
 
 Ownership should remain meaningful if:
 
@@ -418,26 +464,52 @@ store’s convenience layer**, through records, tokens, and transferability
 
 ## 13. Security posture
 
-Security in this model has a clear objective: **prevent dishonest
-multiplication of ownership**, while allowing owners to exercise their
-rights.
+Security in this model has two clear objectives:
 
-### Compatible approaches (illustrative)
+1. **Prevent dishonest multiplication of ownership** (two active owners
+   of the same copy; play continuing after transfer or loan end).
+2. **Prevent unauthorised launch** when no valid digital credential or
+   offline token is present—including when someone only has preserved
+   or shared game files.
 
+These controls must still allow owners to exercise the rights in §4.1,
+including offline ordinary play and personal preservation.
+
+### 13.1 Threat model
+
+| Threat | Posture under this framework |
+|--------|------------------------------|
+| Sharing backups / installers without ownership proof | **Mitigate:** sealed content + launch bound to credential or token (§12.3) |
+| Claiming two owners of one copy via store/transfer abuse | **Prevent:** authoritative one-owner records; lock/release on transfer and lending |
+| Industrial-scale device farms or credential trafficking | **Detect and act:** anomaly detection; proportionate enforcement |
+| Determined reverse engineering / cracked clients | **Not promised:** no consumer scheme forever stops a motivated attacker; that failure mode does not excuse omitting the bindings above |
+
+The model is not sustained by assuming people will be good. Casual
+unauthorised play from bare files must fail by design. Residual risk
+after that binding—especially sophisticated bypasses—is acknowledged
+honestly rather than denied.
+
+### 13.2 Compatible approaches (illustrative)
+
+- sealed or encrypted game packages unlocked by ownership proofs
+- locally cached, signed digital ownership credentials for offline launch
 - cryptographic signatures over ownership records
 - secure hardware or attestations for tokens
 - unique ownership identifiers per game copy
 - anomaly detection for resale, lending, and device farms
 
-### Approaches to avoid as defaults
+### 13.3 Approaches to avoid as defaults
 
+- leaving game payloads freely runnable without any ownership check
 - permanent online requirements for personal play
 - treating every customer as a likely infringer
 - opaque revocation with no recovery path
 - restrictions that exist only to block second-hand markets
 
 Security that destroys the rights it claims to protect is a design
-failure under this framework.
+failure under this framework. Security that relies only on voluntary
+compliance for “files without proof must not play” is also a design
+failure.
 
 ---
 
@@ -475,7 +547,7 @@ deliver revocable permission**.
 
 ## 16. Open questions
 
-The following are intentionally unsettled in v1.0 and are good RFC
+The following are intentionally unsettled in v1.1 and are good RFC
 topics:
 
 1. Concrete token formats and anti-cloning mechanisms.
@@ -484,6 +556,8 @@ topics:
 4. Standard data formats for exporting ownership records.
 5. Default lending durations and abuse limits.
 6. How refunds interact with transfers and mode conversion.
+7. Sealed-package formats and digital credential profiles that satisfy
+   §12.3 without mandating always-online play.
 
 ---
 

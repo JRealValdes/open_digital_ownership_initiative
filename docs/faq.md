@@ -22,9 +22,30 @@ the framework does not mandate a vendor or chip.
 ## Can I still pirate / does this stop piracy?
 
 This proposal is about **rights for paying customers**, not about making
-infringement impossible. Perfect technical prevention of all abuse is not
-a goal. The security posture is to stop *ownership duplication* and
-large-scale fraud while trusting ordinary owners.
+infringement impossible forever. Determined reverse engineering is not a
+solved problem for any consumer scheme, and this framework does not claim
+otherwise.
+
+It does require that **ordinary unauthorised play fail by design**: game
+files alone must not authorise launch. Play needs a valid digital
+ownership credential or an offline ownership token (framework §12.3 and
+§13).
+
+Casual sharing of backups is treated as a mitigated threat via sealed
+content and launch binding—not as something left to voluntary honesty.
+Large-scale fraud and ownership duplication are prevented or detected in
+the authoritative system; multi-device edge cases use a proportionate
+trust-and-detect posture (framework §11).
+
+## If owners can back up games, isn't that just free redistribution?
+
+No—if implementations follow the model. Owners may preserve **sealed**
+game payloads; those backups are not meant to be a working copy for
+someone without ownership proof.
+
+Unlocking for play requires a digital credential (from a valid ownership
+record) or a physical ownership token. Copying the archive folder without
+that proof should not yield an authorised launch.
 
 ## What happens when a platform shuts down?
 

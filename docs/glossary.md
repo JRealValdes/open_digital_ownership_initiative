@@ -8,6 +8,7 @@ in issues, RFCs, and pull requests.
 | **Account** | A platform identity used to manage ownership records. Not itself ownership. |
 | **Borrower** | Person temporarily exercising play rights under a loan, without becoming owner. |
 | **Digital Ownership** | Ownership mode where the copy is managed primarily through digital ownership records and account custody. |
+| **Digital ownership credential** | Locally usable proof derived from a valid Digital Ownership record; required to authorise launch in Digital mode, including offline play after an ownership event. |
 | **Game copy** | A specific ownable instance of a game product. |
 | **Licence-to-use** | Permission to access a game without the durable transfer and longevity rights defined as ownership here. |
 | **Lending** | Temporary delegation of play rights for a game copy; owner retains ownership. |
@@ -19,6 +20,7 @@ in issues, RFCs, and pull requests.
 | **Ownership record** | Authoritative data stating who owns a game copy and in which mode. |
 | **Ownership token** | Unique physical artefact representing Offline Ownership of a game copy. |
 | **Platform** | Storefront or service that custodians digital ownership records and related features. |
-| **Preservation** | Keeping backups and archives of games one owns; does not by itself create ownership. |
+| **Preservation** | Keeping backups and archives of games one owns; does not by itself create ownership or authorise play. |
+| **Sealed content** | Game payload packaged so that usable unlock material derives from an ownership proof; backups of sealed packages alone should not authorise launch. |
 | **Transfer** | Permanent change of owner for a game copy. |
 | **Unified library** | Single conceptual library of owned game copies spanning Digital and Offline modes (and bridged physical editions). |

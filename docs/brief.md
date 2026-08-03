@@ -68,6 +68,7 @@ a purchased game copy:
 - Not a boycott campaign or a demand aimed at any single company.
 - Not a ban on subscriptions, streaming catalogues, or rentals.
 - Not a claim that piracy can be engineered away completely.
+- Not a model that relies on voluntary honesty for “files without proof must not play”: launch must bind to a digital credential or offline token (see framework §12.3 / §13).
 - Not a finished protocol, chip design, or legal statute.
 - Not a requirement that one purchase work across competing platform families.
 
